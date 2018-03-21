@@ -51,5 +51,24 @@ namespace WebMvc.Controllers
             pessoaList.Add(newPessoa);
             return RedirectToAction(nameof(Index));
         }
+
+        public IActionResult Edit([Bind("Id, Nome")] Pessoa editPessoa)
+        {
+            if (!ModelState.IsValid)
+                return View(editPessoa);
+
+            var pessoaToEdit = pessoaList
+                .FirstOrDefault(p => p.Id == editPessoa.Id);
+
+            if (pessoaToEdit == null)
+                return NotFound();
+
+            pessoaToEdit.Nome = editPessoa.Nome;
+
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
     }
 }
